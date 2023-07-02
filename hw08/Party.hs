@@ -19,9 +19,10 @@ moreFun = max
 
 -- EX02
 
-treeFold :: (a -> [b] -> b) -> b -> Tree a -> b
-treeFold f b Node{rootLabel = x, subForest = xss} =
-  f x $ map (treeFold f b) xss
+-- improved by adapting Data.Tree.foldTree
+treeFold :: (a -> [b] -> b) -> Tree a -> b
+treeFold f Node{rootLabel = x, subForest = xss} =
+  f x $ map (treeFold f) xss
 
 -- EX03
 
@@ -38,7 +39,7 @@ nextLevel emp xs = (lhs, rhs)
 -- EX04
 
 maxFun :: Tree Employee -> GuestList
-maxFun = uncurry moreFun . treeFold nextLevel mempty
+maxFun = uncurry moreFun . treeFold nextLevel
 
 -- EX05
 
